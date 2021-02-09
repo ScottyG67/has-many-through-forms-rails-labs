@@ -1,1 +1,32 @@
+<h1><%=@post.title%></h1>
+
+<h5><%= @post.content%></h5>
+
+
+<h6>New Comment</h6>
+<%= form_for @post do |f| %>
+    <%= f.fields_for :comments, @post.comments.build do |comments_fields| %>
+        <%= comments_fields.label :Username %>
+        <%= comments_fields.collection_select :user_id, User.all, :id, :username%>
+        <= comment_content.label :comment_content
+        <<%= comments_fields.text_field :content %> id ='comment_content'>
+    <% end %>
+    <%=f.submit%>
+<%end%>
+
+<ul>
+    <% @post.comments.each do |comment| %>
+        <li><%= comment.content %></li>
+    <% end %>
+</ul>
+
+<ul>
+    <% @post.uniq_comment_usernames.each do |user| %>
+        <li><%= link_to user.username, user_path(user.id) %></li>
+    <% end %>
+</ul>
+
+<% @post.categories.each do |category| %>
+    <p><%= category.name %></p>
+<% end %>
 
